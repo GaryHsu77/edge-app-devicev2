@@ -1,0 +1,12 @@
+kind: app
+version: v1
+spec:
+  name: uc81xx-device
+  displayname: UC-81xx device
+  description: MOXA uc81xx series device
+  version: "${VERSION}"
+  arch: ${ARCH}
+  category: device
+  attributes:
+    - started
+    - installed
