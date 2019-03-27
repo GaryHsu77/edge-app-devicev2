@@ -7,15 +7,16 @@ FROM docker.moxa.online/build-armhf/base:stretch as qemu
 # rootfs
 ################################################################################
 FROM arm32v7/debian:9 as rootfs
-
+ARG REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/XXX/
+ARG FRM_FILE=thingspro_develop_ARCH_DATE.frm
 WORKDIR /var/thingspro/
 
 COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin/
 
 RUN set -x && \
     apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev && \
-    wget http://repo.moxa.online/static/ThingsPro/Gateway/unstable/625/thingspro_develop_armhf_20190321-103539.frm && \
-    tar zxf ./thingspro_develop_armhf_20190321-103539.frm && \
+    wget ${REPO_URL}/${FRM_FILE} && \
+    tar zxf ./${FRM_FILE} && \
     tar zxf thingspro_develop_armhf.pkg && \
     mkdir -p /tmp/archive && \
     tar zxf archive.tar.gz -C /tmp/archive/ && \
@@ -36,18 +37,19 @@ RUN ldconfig -v
 RUN rm -f /usr/bin/qemu-arm-static /etc/apt/apt.conf.d/00-temp-cache-apt
 
 ################################################################################
-# preCombine
+# combine
 ################################################################################
-FROM scratch as preCombine
+FROM scratch as combine
+
+ADD root /
 
 COPY --from=rootfs / /
-
 # copy factory configs
 COPY --from=rootfs /usr/lib/sanji-1.0 /tmp/
-
+COPY entrypoint.sh /usr/local/bin/
 
 VOLUME [ "/sys/fs/cgroup" ]
 ENV container docker
 ENV LC_ALL C
 
-CMD ["/lib/systemd/systemd"]
+CMD ["/usr/local/bin/entrypoint.sh"]

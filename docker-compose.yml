@@ -1,29 +1,23 @@
 version: '2'
 services:
   app:
-    image: docker.moxa.online/moxaisd/uc81xx-device:${VERSION}-${ARCH}
+    image: docker.moxa.online/moxaisd/device:${VERSION}-${ARCH}
     restart: unless-stopped
     privileged: true
     network_mode: "host"
     extra_hosts:
       - moxa:127.0.0.1
-    ports:
-      - 8883:8883
     volumes:
-      - ${APPMAN_APPPATH}/setting/bootstrap/:/usr/lib/sanji-1.0/bootstrap/data/
-      - ${APPMAN_APPPATH}/setting/ethernet/:/usr/lib/sanji-1.0/ethernet/data/
-      - ${APPMAN_APPPATH}/setting/dhcpd/:/usr/lib/sanji-1.0/dhcpd/data/
-      - ${APPMAN_APPPATH}/setting/gps/:/usr/lib/sanji-1.0/gps/data/
-      - ${APPMAN_APPPATH}/setting/dns/:/usr/lib/sanji-1.0/dns/data/
-      - ${APPMAN_APPPATH}/setting/serial/:/usr/lib/sanji-1.0/serial/data/
-      - ${APPMAN_APPPATH}/setting/service/:/usr/lib/sanji-1.0/service/data/
-      - ${APPMAN_APPPATH}/setting/iptables/:/usr/lib/sanji-1.0/iptables/data/
-      - ${APPMAN_APPPATH}/setting/openvpn/:/usr/lib/sanji-1.0/openvpn/data/
-      - ${APPMAN_APPPATH}/setting/status/:/usr/lib/sanji-1.0/status/data/
-      - ${APPMAN_APPPATH}/setting/time/:/usr/lib/sanji-1.0/time/data/
-      - ${APPMAN_APPPATH}/setting/remotecontrol/data/:/usr/lib/sanji-1.0/remotecontrol/data/
-      - ${APPMAN_APPPATH}/setting/route/data/:/usr/lib/sanji-1.0/route/data/
-      - ${APPMAN_APPPATH}/logs/:/var/log/
+      # DEVICE APP ENV : modify following parameter if you know what you ar doing.
+      - ${APPMAN_APPPATH}/moxaenv:/tmp/moxaenv
+      - /etc/:/host/etc/
+      - /usr/share/:/host/usr/share/
+      # [ kversion ]
+      - /bin/kversion:/bin/kversion
+      - /usr/bin/fw_printenv:/usr/bin/fw_printenv
+      - /etc/fw_env.config:/etc/fw_env.config
+      # [ cellular ]
+      - /var/run/moxa-cellular-utils/:/var/run/moxa-cellular-utils/
 
 networks:
   appservice:
