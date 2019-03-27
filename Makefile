@@ -3,6 +3,7 @@
 #------------------------------------------------------------------
 # mpkg setting
 #------------------------------------------------------------------
+MODEL              ?= unknown
 DRONE_BUILD_NUMBER ?= unknown
 BUILD_NUMBER       ?= $(DRONE_BUILD_NUMBER)
 VERSION            := 0.1.0-$(BUILD_NUMBER)
@@ -18,10 +19,10 @@ build:
 		-f Dockerfile.$(ARCH) \
 		--build-arg REPO_URL=$(REPO_URL) \
 		--build-arg FRM_FILE=$(FRM_FILE) \
-		-t docker.moxa.online/moxaisd/device:$(VERSION)-$(ARCH) \
+		-t docker.moxa.online/moxaisd/device:$(VERSION)-$(MODEL)-$(ARCH) \
 		.
 
 mpkg:
-	tdk pack -e ARCH=$(ARCH) -e VERSION=$(VERSION) -w ./
+	tdk pack -e ARCH=$(ARCH) -e VERSION=$(VERSION)-$(MODEL) -w ./
 
 clean:

@@ -21,6 +21,7 @@ pipeline:
       # device - uc8100ame
       - export REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/625/
       - export FRM_FILE=thingspro_develop_armhf_20190321-103539.frm
+      - export MODEL=uc8100ame
       - make -j3 build && make -j3 mpkg
       # ls
       - ls -alh ./*.mpkg
