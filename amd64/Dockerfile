@@ -25,7 +25,7 @@ RUN set -x && \
     echo 'deb file:/tmp/archive ./' >  /etc/apt/sources.list.d/tp.list && \
     apt-get update && apt-cache search mxcloud
 
-RUN apt-get update && apt-get install -q -y --force-yes --fix-missing --allow-unauthenticated uc8100ame-mxcloud-cg; exit 0
+RUN apt-get update && apt-get install -q -y --force-yes --fix-missing --allow-unauthenticated mc1121-mxcloud-cg; exit 0
 RUN rm -rf /var/lib/apt/lists/* && \
     dpkg --purge --force-all udev build-essential && \
     find / -name "*.a" -delete && \
