@@ -16,7 +16,7 @@ all: build mpkg
 build:
 	docker build \
 		-f Dockerfile.$(ARCH) \
-		--build-arg REPO_URL=$(CPU_ARCH) \
+		--build-arg REPO_URL=$(REPO_URL) \
 		--build-arg FRM_FILE=$(FRM_FILE) \
 		-t docker.moxa.online/moxaisd/device:$(VERSION)-$(ARCH) \
 		.
