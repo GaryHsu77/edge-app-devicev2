@@ -18,10 +18,15 @@ pipeline:
     image: docker.moxa.online/build/docker:stretch
     pull: true
     commands:
-      # device - uc8100ame
+      # device - armhf
       - export REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/625/
       - export FRM_FILE=thingspro_develop_armhf_20190321-103539.frm
-      - export MODEL=uc8100ame
+      - cp ./armhf/* .
+      - make -j3 build && make -j3 mpkg
+      # device - amd64
+      - export REPO_URL=http://http://repo.moxa.online/static/ThingsPro/Gateway/unstable/640-jessie/
+      - export FRM_FILE=thingspro_v2.5.1-jessie_amd64_20190326-055735.frm
+      - cp ./amd64/* .
       - make -j3 build && make -j3 mpkg
       # ls
       - ls -alh ./*.mpkg
