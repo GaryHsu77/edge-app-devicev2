@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "hello"
+
 # set factory configs if first run.
 BOOTSTRAP_DIR="/usr/lib/sanji-1.0"
 if [ "$(ls -A .$BOOTSTRAP_DIR)" = "" ]; then
