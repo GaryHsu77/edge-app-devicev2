@@ -1,7 +1,7 @@
 kind: app
 version: v1
 spec:
-  name: uc81xx-device
+  name: device
   displayname: UC-81xx device
   description: MOXA uc81xx series device
   version: "${VERSION}"
