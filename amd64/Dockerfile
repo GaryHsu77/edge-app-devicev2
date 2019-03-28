@@ -1,9 +1,4 @@
 ################################################################################
-# qemu
-################################################################################
-FROM docker.moxa.online/build-armhf/base:stretch as qemu
-
-################################################################################
 # rootfs
 ################################################################################
 FROM amd64/debian:8 as rootfs
@@ -11,13 +6,11 @@ ARG REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/XXX/
 ARG FRM_FILE=thingspro_develop_ARCH_DATE.frm
 WORKDIR /var/thingspro/
 
-COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin/
-
 RUN set -x && \
     apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev && \
     wget ${REPO_URL}/${FRM_FILE} && \
     tar zxf ./${FRM_FILE} && \
-    tar zxf thingspro_develop_armhf.pkg && \
+    tar zxf thingspro_develop_amd64.pkg && \
     mkdir -p /tmp/archive && \
     tar zxf archive.tar.gz -C /tmp/archive/ && \
     cd /tmp/archive/ && \
@@ -34,7 +27,6 @@ RUN rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
     rm -rf /var/thingspro/
 RUN ldconfig -v
-RUN rm -f /usr/bin/qemu-arm-static /etc/apt/apt.conf.d/00-temp-cache-apt
 
 ################################################################################
 # combine
