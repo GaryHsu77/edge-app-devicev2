@@ -51,7 +51,7 @@ services:
       # [ metadata ]
       - ${APPMAN_APPPATH}/device/host/:/tmp/host/
       # [ log ]
-      - ${APPMAN_APPPATH}/device/logs/:/var/log/
+      # - ${APPMAN_APPPATH}/device/logs/:/var/log/
       # [ kversion ]
       - /usr/bin/kversion:/usr/bin/kversion
       # [ cellular ]
