@@ -46,10 +46,9 @@ ADD root /
 COPY --from=rootfs / /
 # copy factory configs
 COPY --from=rootfs /usr/lib/sanji-1.0 /tmp/
-COPY entrypoint.sh /usr/local/bin/
 
 VOLUME [ "/sys/fs/cgroup" ]
 ENV container docker
 ENV LC_ALL C
 
-CMD ["/usr/local/bin/entrypoint.sh"]
+CMD ["/lib/systemd/systemd"]

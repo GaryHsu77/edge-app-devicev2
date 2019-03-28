@@ -1,0 +1,11 @@
+[Unit]
+Description=MOXA boostrap for device managements
+After=network.target
+Wants=collectd.service
+
+[Service]
+Type=simple
+ExecStart=/bin/sh /usr/local/sbin/moxa.sh
+
+[Install]
+WantedBy=multi-user.target

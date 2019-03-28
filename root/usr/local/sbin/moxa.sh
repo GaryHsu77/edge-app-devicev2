@@ -19,7 +19,7 @@ for d in /usr/lib/sanji-1.0/* ; do
     fi
 done
 
-# export BUNDLES_HOME=/usr/lib/sanji-1.0
-# export BUNDLE_ENV=production
+export BUNDLES_HOME=/usr/lib/sanji-1.0
+export BUNDLE_ENV=production
 
-/lib/systemd/systemd
+exec python /usr/lib/sanji-1.0/bootstrap/bootstrap.py
