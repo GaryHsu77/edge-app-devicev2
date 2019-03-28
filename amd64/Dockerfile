@@ -10,7 +10,7 @@ RUN set -x && \
     apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev && \
     wget ${REPO_URL}/${FRM_FILE} && \
     tar zxf ./${FRM_FILE} && \
-    tar zxf thingspro_develop_amd64.pkg && \
+    tar zxf thingspro_v2.5.1-jessie_amd64.pkg && \
     mkdir -p /tmp/archive && \
     tar zxf archive.tar.gz -C /tmp/archive/ && \
     cd /tmp/archive/ && \
