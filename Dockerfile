@@ -18,7 +18,11 @@ RUN set -x && \
     echo 'deb file:/tmp/archive ./' >  /etc/apt/sources.list.d/tp.list && \
     apt-get update && apt-cache search mxcloud
 
-RUN apt-get update && apt-get install -q -y --force-yes --fix-missing --allow-unauthenticated mc1121-mxcloud-cg; exit 0
+VOLUME [ "/sys/fs/cgroup" ]
+ENV container docker
+ENV LC_ALL C
+RUN systemctl set-default multi-user.target
+RUN apt-get update && apt-get install -q -y --force-yes --fix-missing --allow-unauthenticated mc1121-mxcloud-cg
 
 RUN rm -rf /var/lib/apt/lists/* && \
     dpkg --purge --force-all udev build-essential && \
@@ -55,5 +59,4 @@ ENV LC_ALL C
 RUN systemctl set-default multi-user.target
 COPY setup /sbin/
 STOPSIGNAL SIGRTMIN+3
-# CMD ["/bin/bash", "-c", "exec /sbin/init --log-target=journal 3>&1"]
-CMD ["/lib/systemd/systemd"]
+CMD ["/bin/bash", "-c", "exec /sbin/init --log-target=journal 3>&1"]
