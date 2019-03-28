@@ -21,7 +21,7 @@ pipeline:
       # device - armhf
       - export REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/625
       - export FRM_FILE=thingspro_develop_armhf_20190321-103539.frm
-      - export ARCH=amd64
+      - export ARCH=armhf
       - cp ./armhf/* .
       - make -j3 build && make -j3 mpkg
       # device - amd64
