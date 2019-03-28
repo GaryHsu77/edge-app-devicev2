@@ -15,7 +15,7 @@ echo "**********************************************************************"
 for d in /usr/lib/sanji-1.0/* ; do
     mkdir -p $d/data
     if [ "$(ls -A $d/data)" = "" ]; then
-        echo "/tmp/$d/data/* $d/data/"
+        cp -r "/tmp/$d/data/* $d/data/"
     fi
 done
 
