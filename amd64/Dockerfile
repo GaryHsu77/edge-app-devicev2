@@ -40,7 +40,7 @@ RUN find /etc/systemd/system \
     -exec rm \{} \;
 
 ADD root /
-RUN cp -r /usr/lib/sanji-1.0 /tmp/usr/lib/sanji-1.0
+RUN mkdir -p /tmp/usr/lib/sanji-1.0 && cp -r /usr/lib/sanji-1.0 /tmp/usr/lib/sanji-1.0
 ENV container docker
 ENV LC_ALL C
 RUN systemctl set-default multi-user.target
