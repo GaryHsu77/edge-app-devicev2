@@ -37,7 +37,7 @@ ADD root /
 
 COPY --from=rootfs / /
 # copy factory configs
-COPY --from=rootfs /usr/lib/sanji-1.0 /tmp/
+COPY --from=rootfs /usr/lib/sanji-1.0 /tmp/usr/lib/sanji-1.0
 COPY entrypoint.sh /usr/local/bin/
 
 VOLUME [ "/sys/fs/cgroup" ]
