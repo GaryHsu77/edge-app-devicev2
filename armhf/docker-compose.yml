@@ -51,8 +51,3 @@ services:
       - /etc/fw_env.config:/etc/fw_env.config
       # [ cellular ]
       - /var/run/moxa-cellular-utils/:/var/run/moxa-cellular-utils/
-
-networks:
-  appservice:
-    external:
-      name: appservice
