@@ -1,11 +1,15 @@
 [Unit]
 Description=MOXA boostrap for device managements
 After=network.target
-Wants=collectd.service
 
 [Service]
-Type=simple
 ExecStart=/bin/sh /usr/local/sbin/moxa.sh
+PIDFile=/var/run/moxa.pid
+Restart=always
+StandardError=syslog
+StandardOutput=syslog
+TimeoutStopSec=30
+Type=simple
 
 [Install]
 WantedBy=multi-user.target

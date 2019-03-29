@@ -35,7 +35,6 @@ RUN set -x && \
 
 # copy factory configs
 RUN mkdir -p /tmp/usr/lib/sanji-1.0 && cp -r /usr/lib/sanji-1.0 /tmp/usr/lib/sanji-1.0
-RUN rm -f /usr/bin/qemu-arm-static /etc/apt/apt.conf.d/00-temp-cache-apt
 
 # override fs
 ADD root /
@@ -49,6 +48,9 @@ RUN find /etc/systemd/system \
     -not -name '*systemd-tmpfiles*' \
     -not -name '*systemd-user-sessions*' \
     -exec rm \{} \;
+
+RUN rm -f /usr/bin/qemu-arm-static /etc/apt/apt.conf.d/00-temp-cache-apt
+
 ENV container docker
 ENV LC_ALL C
 RUN systemctl set-default multi-user.target
