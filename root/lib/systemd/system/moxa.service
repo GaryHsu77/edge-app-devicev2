@@ -1,6 +1,7 @@
 [Unit]
 Description=MOXA boostrap for device managements
 After=network.target
+Wants=collectd.service
 
 [Service]
 ExecStart=/bin/sh /usr/local/sbin/moxa.sh

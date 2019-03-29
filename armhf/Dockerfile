@@ -13,6 +13,18 @@ WORKDIR /var/thingspro/
 
 COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin/
 
+# https://github.com/solita/docker-systemd/blob/master/Dockerfile
+# Don't start any optional services except for the few we need.
+RUN find /etc/systemd/system \
+    /lib/systemd/system \
+    -path '*.wants/*' \
+    -not -name '*journald*' \
+    -not -name '*systemd-tmpfiles*' \
+    -not -name '*systemd-user-sessions*' \
+    -exec rm \{} \;
+ENV container docker
+ENV LC_ALL C
+
 # install thingspro frm
 RUN set -x && \
     apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev dbus && \
@@ -39,20 +51,8 @@ RUN mkdir -p /tmp/usr/lib/sanji-1.0 && cp -r /usr/lib/sanji-1.0 /tmp/usr/lib/san
 # override fs
 ADD root /
 
-# https://github.com/solita/docker-systemd/blob/master/Dockerfile
-# Don't start any optional services except for the few we need.
-RUN find /etc/systemd/system \
-    /lib/systemd/system \
-    -path '*.wants/*' \
-    -not -name '*journald*' \
-    -not -name '*systemd-tmpfiles*' \
-    -not -name '*systemd-user-sessions*' \
-    -exec rm \{} \;
-
-ENV container docker
-ENV LC_ALL C
 RUN systemctl set-default multi-user.target
-RUN systemctl enable thingspro-gateway-web-service
+
 COPY setup /sbin/
 STOPSIGNAL SIGRTMIN+3
 
