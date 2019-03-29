@@ -13,8 +13,9 @@ WORKDIR /var/thingspro/
 
 COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin/
 
+# install thingspro frm
 RUN set -x && \
-    apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev && \
+    apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev dbus && \
     wget ${REPO_URL}/${FRM_FILE} && \
     tar zxf ./${FRM_FILE} && \
     tar zxf thingspro_develop_armhf.pkg && \
@@ -23,32 +24,35 @@ RUN set -x && \
     cd /tmp/archive/ && \
     dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz && \
     echo 'deb file:/tmp/archive ./' >  /etc/apt/sources.list.d/tp.list && \
-    apt-get update && apt-cache search mxcloud
-
-RUN apt-get update && apt-get install -q -y --force-yes --fix-missing --allow-unauthenticated uc8100ame-mxcloud-cg; exit 0
-RUN rm -rf /var/lib/apt/lists/* && \
+    apt-get update && apt-cache search mxcloud && \
+    apt-get update && apt-get install -q -y --force-yes --fix-missing --allow-unauthenticated uc8100ame-mxcloud-cg; rm -rf /var/lib/apt/lists/*  && \
     dpkg --purge --force-all udev build-essential && \
     find / -name "*.a" -delete && \
     cd /usr/share && rm -rf man doc locale icons && \
     rm -rf /lib/udev && \
     rm -rf /tmp/* && \
     rm -rf /var/thingspro/
-RUN ldconfig -v
+
+# copy factory configs
+RUN mkdir -p /tmp/usr/lib/sanji-1.0 && cp -r /usr/lib/sanji-1.0 /tmp/usr/lib/sanji-1.0
 RUN rm -f /usr/bin/qemu-arm-static /etc/apt/apt.conf.d/00-temp-cache-apt
 
-################################################################################
-# combine
-################################################################################
-FROM scratch as combine
-
+# override fs
 ADD root /
 
-COPY --from=rootfs / /
-# copy factory configs
-COPY --from=rootfs /usr/lib/sanji-1.0 /tmp/
-
-VOLUME [ "/sys/fs/cgroup" ]
+# https://github.com/solita/docker-systemd/blob/master/Dockerfile
+# Don't start any optional services except for the few we need.
+RUN find /etc/systemd/system \
+    /lib/systemd/system \
+    -path '*.wants/*' \
+    -not -name '*journald*' \
+    -not -name '*systemd-tmpfiles*' \
+    -not -name '*systemd-user-sessions*' \
+    -exec rm \{} \;
 ENV container docker
 ENV LC_ALL C
-
+RUN systemctl set-default multi-user.target
+COPY setup /sbin/
+STOPSIGNAL SIGRTMIN+3
+# CMD ["/bin/bash", "-c", "exec /sbin/init --log-target=journal 3>&1"]
 CMD ["/lib/systemd/systemd"]
