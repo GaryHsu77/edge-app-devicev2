@@ -49,12 +49,14 @@ RUN find /etc/systemd/system \
     -not -name '*systemd-user-sessions*' \
     -exec rm \{} \;
 
-RUN rm -f /usr/bin/qemu-arm-static /etc/apt/apt.conf.d/00-temp-cache-apt
-
 ENV container docker
 ENV LC_ALL C
 RUN systemctl set-default multi-user.target
+RUN systemctl enable thingspro-gateway-web-service
 COPY setup /sbin/
 STOPSIGNAL SIGRTMIN+3
+
+RUN rm -f /usr/bin/qemu-arm-static /etc/apt/apt.conf.d/00-temp-cache-apt
+
 # CMD ["/bin/bash", "-c", "exec /sbin/init --log-target=journal 3>&1"]
 CMD ["/lib/systemd/systemd"]
