@@ -7,27 +7,16 @@ FROM docker.moxa.online/build-armhf/base:stretch as qemu
 # rootfs
 ################################################################################
 FROM arm32v7/debian:9 as rootfs
-ARG REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/XXX/
-ARG FRM_FILE=thingspro_develop_ARCH_DATE.frm
+
 WORKDIR /var/thingspro/
 
 COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin/
 
-# https://github.com/solita/docker-systemd/blob/master/Dockerfile
-# Don't start any optional services except for the few we need.
-RUN find /etc/systemd/system \
-    /lib/systemd/system \
-    -path '*.wants/*' \
-    -not -name '*journald*' \
-    -not -name '*systemd-tmpfiles*' \
-    -not -name '*systemd-user-sessions*' \
-    -exec rm \{} \;
-ENV container docker
-ENV LC_ALL C
-
 # install thingspro frm
+ARG REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/XXX/
+ARG FRM_FILE=thingspro_develop_ARCH_DATE.frm
 RUN set -x && \
-    apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev dbus && \
+    apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev dbus systemd && \
     wget ${REPO_URL}/${FRM_FILE} && \
     tar zxf ./${FRM_FILE} && \
     tar zxf thingspro_develop_armhf.pkg && \
@@ -51,8 +40,18 @@ RUN mkdir -p /tmp/usr/lib/sanji-1.0 && cp -r /usr/lib/sanji-1.0 /tmp/usr/lib/san
 # override fs
 ADD root /
 
+# https://github.com/solita/docker-systemd/blob/master/Dockerfile
+# Don't start any optional services except for the few we need.
+RUN find /etc/systemd/system \
+    /lib/systemd/system \
+    -path '*.wants/*' \
+    -not -name '*journald*' \
+    -not -name '*systemd-tmpfiles*' \
+    -not -name '*systemd-user-sessions*' \
+    -exec rm \{} \;
+ENV container docker
+ENV LC_ALL C
 RUN systemctl set-default multi-user.target
-
 COPY setup /sbin/
 STOPSIGNAL SIGRTMIN+3
 
