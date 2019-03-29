@@ -20,38 +20,38 @@ services:
       - /etc/:/host/etc/
       - /usr/share/:/host/usr/share/
       # [ bundles data ]
-      - ${APPMAN_APPPATH}/device/bootstrap/:/usr/lib/sanji-1.0/bootstrap/data/
-      - ${APPMAN_APPPATH}/device/ethernet/:/usr/lib/sanji-1.0/ethernet/data/
-      - ${APPMAN_APPPATH}/device/dhcpd/:/usr/lib/sanji-1.0/dhcpd/data/
-      - ${APPMAN_APPPATH}/device/gps/:/usr/lib/sanji-1.0/gps/data/
-      - ${APPMAN_APPPATH}/device/dns/:/usr/lib/sanji-1.0/dns/data/
-      - ${APPMAN_APPPATH}/device/serial/:/usr/lib/sanji-1.0/serial/data/
-      - ${APPMAN_APPPATH}/device/service/:/usr/lib/sanji-1.0/service/data/
-      - ${APPMAN_APPPATH}/device/iptables/:/usr/lib/sanji-1.0/iptables/data/
-      - ${APPMAN_APPPATH}/device/openvpn/:/usr/lib/sanji-1.0/openvpn/data/
-      - ${APPMAN_APPPATH}/device/status/:/usr/lib/sanji-1.0/status/data/
-      - ${APPMAN_APPPATH}/device/time/:/usr/lib/sanji-1.0/time/data/
-      - ${APPMAN_APPPATH}/device/remotecontrol/data/:/usr/lib/sanji-1.0/remotecontrol/data/
-      - ${APPMAN_APPPATH}/device/route/data/:/usr/lib/sanji-1.0/route/data/
-      - ${APPMAN_APPPATH}/device/modbus/data/:/usr/lib/sanji-1.0/modbus/data/
-      - ${APPMAN_APPPATH}/device/modbusslave/data/:/usr/lib/sanji-1.0/modbusslave/data/
-      - ${APPMAN_APPPATH}/device/logprofile/data/:/usr/lib/sanji-1.0/logprofile/data/
-      - ${APPMAN_APPPATH}/device/cellular/data/:/usr/lib/sanji-1.0/cellular/data/
-      - ${APPMAN_APPPATH}/device/custom-equipment/data/:/usr/lib/sanji-1.0/custom-equipment/data/
-      - ${APPMAN_APPPATH}/device/import-export/data/:/usr/lib/sanji-1.0/import-export/data/
-      - ${APPMAN_APPPATH}/device/program/data/:/usr/lib/sanji-1.0/program/data/
-      - ${APPMAN_APPPATH}/device/upgrade/data/:/usr/lib/sanji-1.0/upgrade/data/
-      - ${APPMAN_APPPATH}/device/modbusawsiot/data/:/usr/lib/sanji-1.0/modbusawsiot/data/
-      - ${APPMAN_APPPATH}/device/mqtt/data/:/usr/lib/sanji-1.0/mqtt/data/
-      - ${APPMAN_APPPATH}/device/wifi/data/:/usr/lib/sanji-1.0/wifi/data/
-      - ${APPMAN_APPPATH}/device/azure/data/:/usr/lib/sanji-1.0/azure/data/
-      - ${APPMAN_APPPATH}/device/sparkplug/data/:/usr/lib/sanji-1.0/sparkplug/data/
-      - ${APPMAN_APPPATH}/device/aliyun/data/:/usr/lib/sanji-1.0/aliyun/data/
-      - ${APPMAN_APPPATH}/device/wonderware/data/:/usr/lib/sanji-1.0/wonderware/data/
+      - /var/thingspro/device/bootstrap/:/usr/lib/sanji-1.0/bootstrap/data/
+      - /var/thingspro/device/ethernet/:/usr/lib/sanji-1.0/ethernet/data/
+      - /var/thingspro/device/dhcpd/:/usr/lib/sanji-1.0/dhcpd/data/
+      - /var/thingspro/device/gps/:/usr/lib/sanji-1.0/gps/data/
+      - /var/thingspro/device/dns/:/usr/lib/sanji-1.0/dns/data/
+      - /var/thingspro/device/serial/:/usr/lib/sanji-1.0/serial/data/
+      - /var/thingspro/device/service/:/usr/lib/sanji-1.0/service/data/
+      - /var/thingspro/device/iptables/:/usr/lib/sanji-1.0/iptables/data/
+      - /var/thingspro/device/openvpn/:/usr/lib/sanji-1.0/openvpn/data/
+      - /var/thingspro/device/status/:/usr/lib/sanji-1.0/status/data/
+      - /var/thingspro/device/time/:/usr/lib/sanji-1.0/time/data/
+      - /var/thingspro/device/remotecontrol/data/:/usr/lib/sanji-1.0/remotecontrol/data/
+      - /var/thingspro/device/route/data/:/usr/lib/sanji-1.0/route/data/
+      - /var/thingspro/device/modbus/data/:/usr/lib/sanji-1.0/modbus/data/
+      - /var/thingspro/device/modbusslave/data/:/usr/lib/sanji-1.0/modbusslave/data/
+      - /var/thingspro/device/logprofile/data/:/usr/lib/sanji-1.0/logprofile/data/
+      - /var/thingspro/device/cellular/data/:/usr/lib/sanji-1.0/cellular/data/
+      - /var/thingspro/device/custom-equipment/data/:/usr/lib/sanji-1.0/custom-equipment/data/
+      - /var/thingspro/device/import-export/data/:/usr/lib/sanji-1.0/import-export/data/
+      - /var/thingspro/device/program/data/:/usr/lib/sanji-1.0/program/data/
+      - /var/thingspro/device/upgrade/data/:/usr/lib/sanji-1.0/upgrade/data/
+      - /var/thingspro/device/modbusawsiot/data/:/usr/lib/sanji-1.0/modbusawsiot/data/
+      - /var/thingspro/device/mqtt/data/:/usr/lib/sanji-1.0/mqtt/data/
+      - /var/thingspro/device/wifi/data/:/usr/lib/sanji-1.0/wifi/data/
+      - /var/thingspro/device/azure/data/:/usr/lib/sanji-1.0/azure/data/
+      - /var/thingspro/device/sparkplug/data/:/usr/lib/sanji-1.0/sparkplug/data/
+      - /var/thingspro/device/aliyun/data/:/usr/lib/sanji-1.0/aliyun/data/
+      - /var/thingspro/device/wonderware/data/:/usr/lib/sanji-1.0/wonderware/data/
       # [ metadata ]
-      - ${APPMAN_APPPATH}/device/host/:/tmp/host/
+      - /var/thingspro/device/host/:/tmp/host/
       # [ log ]
-      # - ${APPMAN_APPPATH}/device/logs/:/var/log/
+      # - /var/thingspro/device/logs/:/var/log/
       # [ kversion ]
       - /bin/kversion:/bin/kversion
       - /usr/bin/fw_printenv:/usr/bin/fw_printenv
