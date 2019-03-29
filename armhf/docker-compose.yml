@@ -7,7 +7,14 @@ services:
     network_mode: "host"
     extra_hosts:
       - moxa:127.0.0.1
+    security_opt:
+      - seccomp:unconfined
+    tmpfs:
+      - /run
+      - /run/lock
     volumes:
+      # [ systemd ]
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
       # DEVICE APP ENV : modify following parameter if you know what you ar doing.
       - ${APPMAN_APPPATH}/moxaenv:/tmp/moxaenv
       - /etc/:/host/etc/
@@ -44,7 +51,7 @@ services:
       # [ metadata ]
       - ${APPMAN_APPPATH}/device/host/:/tmp/host/
       # [ log ]
-      - ${APPMAN_APPPATH}/device/logs/:/var/log/
+      # - ${APPMAN_APPPATH}/device/logs/:/var/log/
       # [ kversion ]
       - /bin/kversion:/bin/kversion
       - /usr/bin/fw_printenv:/usr/bin/fw_printenv
