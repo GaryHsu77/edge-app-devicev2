@@ -2,8 +2,7 @@
 # rootfs
 ################################################################################
 FROM amd64/debian:8 as rootfs
-ARG REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/XXX/
-ARG FRM_FILE=thingspro_develop_ARCH_DATE.frm
+
 WORKDIR /var/thingspro/
 
 # https://github.com/solita/docker-systemd/blob/master/Dockerfile
@@ -19,6 +18,8 @@ ENV container docker
 ENV LC_ALL C
 
 # install thingspro frm
+ARG REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/XXX/
+ARG FRM_FILE=thingspro_develop_ARCH_DATE.frm
 RUN set -x && \
     apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev dbus && \
     wget ${REPO_URL}/${FRM_FILE} && \
@@ -30,7 +31,8 @@ RUN set -x && \
     dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz && \
     echo 'deb file:/tmp/archive ./' >  /etc/apt/sources.list.d/tp.list && \
     apt-get update && apt-cache search mxcloud && \
-    apt-get update && apt-get install -q -y --force-yes --fix-missing --allow-unauthenticated mc1121-mxcloud-cg; rm -rf /var/lib/apt/lists/*  && \
+    apt-get update && apt-get install -y -o Dpkg::Options::="--force-confnew" --allow-unauthenticated mc1121-mxcloud-cg && \
+    rm -rf /var/lib/apt/lists/*  && \
     dpkg --purge --force-all udev build-essential && \
     find / -name "*.a" -delete && \
     cd /usr/share && rm -rf man doc locale icons && \

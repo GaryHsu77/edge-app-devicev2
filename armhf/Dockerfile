@@ -26,7 +26,7 @@ RUN set -x && \
     dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz && \
     echo 'deb file:/tmp/archive ./' >  /etc/apt/sources.list.d/tp.list && \
     apt-get update && apt-cache search mxcloud && \
-    apt-get update && apt-get install -q -y --force-yes --fix-missing --allow-unauthenticated uc8100ame-mxcloud-cg; rm -rf /var/lib/apt/lists/*  && \
+    apt-get update && apt-get install -y -o Dpkg::Options::="--force-confnew" --allow-unauthenticated uc8100ame-mxcloud-cg; rm -rf /var/lib/apt/lists/*  && \
     dpkg --purge --force-all udev build-essential && \
     find / -name "*.a" -delete && \
     cd /usr/share && rm -rf man doc locale icons && \
