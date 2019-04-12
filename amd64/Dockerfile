@@ -1,7 +1,7 @@
 ################################################################################
 # rootfs
 ################################################################################
-FROM amd64/debian:8 as rootfs
+FROM amd64/debian:9 as rootfs
 
 WORKDIR /var/thingspro/
 
@@ -21,17 +21,17 @@ ENV LC_ALL C
 ARG REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/XXX/
 ARG FRM_FILE=thingspro_develop_ARCH_DATE.frm
 RUN set -x && \
-    apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev dbus && \
+    apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev dbus systemd && \
     wget ${REPO_URL}/${FRM_FILE} && \
     tar zxf ./${FRM_FILE} && \
-    tar zxf thingspro_v2.5.1-jessie_amd64.pkg && \
+    tar zxf thingspro_release-thingspro_v2.6_amd64.pkg && \
     mkdir -p /tmp/archive && \
     tar zxf archive.tar.gz -C /tmp/archive/ && \
     cd /tmp/archive/ && \
     dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz && \
-    echo 'deb file:/tmp/archive ./' >  /etc/apt/sources.list.d/tp.list && \
-    apt-get update && apt-cache search mxcloud && \
-    apt-get update && apt-get install -y -o Dpkg::Options::="--force-confnew" --allow-unauthenticated mc1121-mxcloud-cg && \
+    echo 'deb file:///tmp/archive ./' >  /etc/apt/sources.list.d/tp.list && \
+    apt-get update && apt-cache search tp-device-app && \
+    apt-get install -y -o Dpkg::Options::="--force-confnew" --allow-unauthenticated tp-device-app && \
     rm -rf /var/lib/apt/lists/*  && \
     dpkg --purge --force-all udev build-essential && \
     find / -name "*.a" -delete && \

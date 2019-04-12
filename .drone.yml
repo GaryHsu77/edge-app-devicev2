@@ -19,14 +19,14 @@ pipeline:
     pull: true
     commands:
       # device - armhf
-      - export REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/625
-      - export FRM_FILE=thingspro_develop_armhf_20190321-103539.frm
+      - export REPO_URL=http://repo.isd.moxa.com/static/ThingsPro/Gateway/release/thingspro_v2.6/721
+      - export FRM_FILE=thingspro_release-thingspro_v2.6_armhf_20190412-012733.frm
       - export ARCH=armhf
       - cp ./armhf/* .
       - make -j3 build && make -j3 mpkg
       # device - amd64
-      - export REPO_URL=http://repo.moxa.online/static/ThingsPro/Gateway/unstable/640-jessie
-      - export FRM_FILE=thingspro_v2.5.1-jessie_amd64_20190326-055735.frm
+      - export REPO_URL=http://repo.isd.moxa.com/static/ThingsPro/Gateway/release/thingspro_v2.6/721
+      - export FRM_FILE=thingspro_release-thingspro_v2.6_amd64_20190412-012529.frm
       - export ARCH=amd64
       - cp ./amd64/* .
       - make -j3 build && make -j3 mpkg

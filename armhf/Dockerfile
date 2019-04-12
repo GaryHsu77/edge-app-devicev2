@@ -19,14 +19,14 @@ RUN set -x && \
     apt-get update && apt-get install -q -y --force-yes --fix-missing wget dpkg-dev dbus systemd && \
     wget ${REPO_URL}/${FRM_FILE} && \
     tar zxf ./${FRM_FILE} && \
-    tar zxf thingspro_develop_armhf.pkg && \
+    tar zxf thingspro_release-thingspro_v2.6_armhf.pkg && \
     mkdir -p /tmp/archive && \
     tar zxf archive.tar.gz -C /tmp/archive/ && \
     cd /tmp/archive/ && \
     dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz && \
-    echo 'deb file:/tmp/archive ./' >  /etc/apt/sources.list.d/tp.list && \
-    apt-get update && apt-cache search mxcloud && \
-    apt-get update && apt-get install -y -o Dpkg::Options::="--force-confnew" --allow-unauthenticated uc8100ame-mxcloud-cg; rm -rf /var/lib/apt/lists/*  && \
+    echo 'deb file:///tmp/archive ./' >  /etc/apt/sources.list.d/tp.list && \
+    apt-get update && apt-cache search tp-device-app && \
+    apt-get update && apt-get install -y -o Dpkg::Options::="--force-confnew" --allow-unauthenticated tp-device-app; rm -rf /var/lib/apt/lists/*  && \
     dpkg --purge --force-all udev build-essential && \
     find / -name "*.a" -delete && \
     cd /usr/share && rm -rf man doc locale icons && \
