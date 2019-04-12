@@ -12,6 +12,9 @@ services:
     tmpfs:
       - /run
       - /run/lock
+    environment:
+      - HTTP_PORT=8000
+      - HTTPS_PORT=8443
     volumes:
       # [ systemd ]
       - /sys/fs/cgroup:/sys/fs/cgroup:ro

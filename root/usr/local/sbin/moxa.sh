@@ -19,6 +19,7 @@ for d in /usr/lib/sanji-1.0/* ; do
     fi
 done
 
+systemctl set-environment HTTP_PORT=${HTTP_PORT} HTTPS_PORT=${HTTPS_PORT}
 systemctl start thingspro-gateway-web-service
 systemctl start watchdog.service
 systemctl start monit.service
