@@ -15,15 +15,15 @@ echo "**********************************************************************"
 for d in /usr/lib/sanji-1.0/* ; do
     mkdir -p $d/data
     if [ "$(ls -A $d/data)" = "" ]; then
-        cp -r "/tmp/$d/data/* $d/data/"
+        cp -r "/tmp/host$d/data/* $d/data/"
     fi
 done
 
-systemctl set-environment HTTP_PORT=${HTTP_PORT} HTTPS_PORT=${HTTPS_PORT}
-systemctl start thingspro-gateway-web-service
-systemctl start watchdog.service
-systemctl start monit.service
-systemctl start mosquitto.service
+systemctl set-environment MODE=${MODE} HTTP_PORT=${HTTP_PORT}
+systemctl restart thingspro-gateway-web-service
+systemctl restart watchdog.service
+systemctl restart monit.service
+systemctl restart mosquitto.service
 
 export BUNDLES_HOME=/usr/lib/sanji-1.0
 export BUNDLE_ENV=production

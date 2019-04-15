@@ -13,8 +13,8 @@ services:
       - /run
       - /run/lock
     environment:
+      - MODE=HTTP_ONLY
       - HTTP_PORT=8000
-      - HTTPS_PORT=8443
     volumes:
       # [ systemd ]
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
