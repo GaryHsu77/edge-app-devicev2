@@ -35,7 +35,7 @@ RUN set -x && \
     rm -rf /var/thingspro/
 
 # copy factory configs
-RUN mkdir -p /tmp/usr/lib/sanji-1.0 && cp -r /usr/lib/sanji-1.0 /tmp/usr/lib/sanji-1.0
+RUN mkdir -p  /opt/usr/lib/sanji-1.0 && cp -r /usr/lib/sanji-1.0 /opt/usr/lib/sanji-1.0
 
 # override fs
 ADD root /
