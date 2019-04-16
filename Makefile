@@ -6,9 +6,9 @@
 DRONE_BUILD_NUMBER ?= unknown
 BUILD_NUMBER       ?= $(DRONE_BUILD_NUMBER)
 VERSION            := 0.1.0-$(BUILD_NUMBER)
-ARCH               ?= armhf
-REPO_URL           ?= http://repo.isd.moxa.com/static/ThingsPro/Gateway/release/thingspro_v2.6/721
-FRM_FILE           ?= thingspro_release-thingspro_v2.6_amd64_20190412-012529.frm
+ARCH               ?= amd64
+REPO_URL           ?= http://repo.isd.moxa.com/static/ThingsPro/Gateway/release/thingspro_v2.6/730
+FRM_FILE           ?= thingspro_release-thingspro_v2.6_amd64_20190416-025459.frm
 #------------------------------------------------------------------
 
 all: build mpkg
