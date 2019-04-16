@@ -19,7 +19,7 @@ for d in /usr/lib/sanji-1.0/* ; do
     fi
 done
 
-systemctl set-environment MODE=${MODE} HTTP_PORT=${HTTP_PORT}
+systemctl set-environment MODE=HTTP_ONLY HTTP_PORT=8000
 systemctl restart thingspro-gateway-web-service
 systemctl restart watchdog.service
 systemctl restart monit.service
