@@ -20,7 +20,7 @@ pipeline:
     commands:
       # device - armhf
       - export REPO_URL=http://repo.isd.moxa.com/static/ThingsPro/Gateway/release/thingspro_v2.6/730
-      - export FRM_FILE=thingspro_release-thingspro_v2.6_amd64_20190416-025459.frm
+      - export FRM_FILE=thingspro_release-thingspro_v2.6_armhf_20190416-025714.frm
       - export ARCH=armhf
       - cp ./armhf/* .
       - make -j3 build && make -j3 mpkg
