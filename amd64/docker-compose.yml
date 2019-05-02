@@ -1,0 +1,58 @@
+version: '2'
+services:
+  app:
+    image: docker.moxa.online/moxaisd/device:${VERSION}-${ARCH}
+    restart: unless-stopped
+    privileged: true
+    network_mode: "host"
+    extra_hosts:
+      - moxa:127.0.0.1
+    security_opt:
+      - seccomp:unconfined
+    tmpfs:
+      - /run
+      - /run/lock
+    volumes:
+      # [ systemd ]
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      # DEVICE APP ENV : modify following parameter if you know what you ar doing.
+      - ${APPMAN_APPPATH}/moxaenv:/tmp/moxaenv
+      - /etc/:/host/etc/
+      - /usr/share/:/host/usr/share/
+      # [ bundles data ]
+      - /var/thingspro/device/bootstrap/:/usr/lib/sanji-1.0/bootstrap/data/
+      - /var/thingspro/device/ethernet/:/usr/lib/sanji-1.0/ethernet/data/
+      - /var/thingspro/device/dhcpd/:/usr/lib/sanji-1.0/dhcpd/data/
+      - /var/thingspro/device/gps/:/usr/lib/sanji-1.0/gps/data/
+      - /var/thingspro/device/dns/:/usr/lib/sanji-1.0/dns/data/
+      - /var/thingspro/device/serial/:/usr/lib/sanji-1.0/serial/data/
+      - /var/thingspro/device/service/:/usr/lib/sanji-1.0/service/data/
+      - /var/thingspro/device/iptables/:/usr/lib/sanji-1.0/iptables/data/
+      - /var/thingspro/device/openvpn/:/usr/lib/sanji-1.0/openvpn/data/
+      - /var/thingspro/device/status/:/usr/lib/sanji-1.0/status/data/
+      - /var/thingspro/device/time/:/usr/lib/sanji-1.0/time/data/
+      - /var/thingspro/device/remotecontrol/data/:/usr/lib/sanji-1.0/remotecontrol/data/
+      - /var/thingspro/device/route/data/:/usr/lib/sanji-1.0/route/data/
+      - /var/thingspro/device/modbus/data/:/usr/lib/sanji-1.0/modbus/data/
+      - /var/thingspro/device/modbusslave/data/:/usr/lib/sanji-1.0/modbusslave/data/
+      - /var/thingspro/device/logprofile/data/:/usr/lib/sanji-1.0/logprofile/data/
+      - /var/thingspro/device/cellular/data/:/usr/lib/sanji-1.0/cellular/data/
+      - /var/thingspro/device/custom-equipment/data/:/usr/lib/sanji-1.0/custom-equipment/data/
+      - /var/thingspro/device/import-export/data/:/usr/lib/sanji-1.0/import-export/data/
+      - /var/thingspro/device/program/data/:/usr/lib/sanji-1.0/program/data/
+      - /var/thingspro/device/upgrade/data/:/usr/lib/sanji-1.0/upgrade/data/
+      - /var/thingspro/device/modbusawsiot/data/:/usr/lib/sanji-1.0/modbusawsiot/data/
+      - /var/thingspro/device/mqtt/data/:/usr/lib/sanji-1.0/mqtt/data/
+      - /var/thingspro/device/wifi/data/:/usr/lib/sanji-1.0/wifi/data/
+      - /var/thingspro/device/azure/data/:/usr/lib/sanji-1.0/azure/data/
+      - /var/thingspro/device/sparkplug/data/:/usr/lib/sanji-1.0/sparkplug/data/
+      - /var/thingspro/device/aliyun/data/:/usr/lib/sanji-1.0/aliyun/data/
+      - /var/thingspro/device/wonderware/data/:/usr/lib/sanji-1.0/wonderware/data/
+      # [ metadata ]
+      - /var/thingspro/device/host/:/tmp/host/
+      # [ log ]
+      # - /var/thingspro/device/logs/:/var/log/
+      # [ kversion ]
+      - /usr/bin/kversion:/usr/bin/kversion
+      # [ cellular ]
+      - /var/run/moxa-cellular-utils/:/var/run/moxa-cellular-utils/

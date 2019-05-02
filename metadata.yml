@@ -1,9 +1,9 @@
 kind: app
 version: v1
 spec:
-  name: uc81xx-device
-  displayname: UC-81xx device
-  description: MOXA uc81xx series device
+  name: device
+  displayname: Device
+  description: ThingsPro device app.
   version: "${VERSION}"
   arch: ${ARCH}
   category: device

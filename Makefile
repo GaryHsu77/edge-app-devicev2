@@ -6,18 +6,18 @@
 DRONE_BUILD_NUMBER ?= unknown
 BUILD_NUMBER       ?= $(DRONE_BUILD_NUMBER)
 VERSION            := 0.1.0-$(BUILD_NUMBER)
-ARCH                = armhf
-LIB_VERSION         = arm-linux-gnueabihf
-RUNTIME_BASE_ARCH   = arm32v7
-
+ARCH               ?= amd64
+REPO_URL           ?= http://repo.isd.moxa.com/static/ThingsPro/Gateway/release/thingspro_v2.6/730
+FRM_FILE           ?= thingspro_release-thingspro_v2.6_amd64_20190416-025459.frm
 #------------------------------------------------------------------
 
 all: build mpkg
 
 build:
 	docker build \
-		--add-host repo.isd.moxa.com:10.144.48.201 \
-		-t docker.moxa.online/moxaisd/uc81xx-device:$(VERSION)-$(ARCH) \
+		--build-arg REPO_URL=$(REPO_URL) \
+		--build-arg FRM_FILE=$(FRM_FILE) \
+		-t docker.moxa.online/moxaisd/device:$(VERSION)-$(ARCH) \
 		.
 
 mpkg:

@@ -1,0 +1,90 @@
+pipeline:
+  checkout:
+    image: docker.moxa.online/build/base:stretch
+    commands:
+      - git checkout --track -b ${DRONE_BRANCH} origin/${DRONE_BRANCH}
+      - git merge ${CI_COMMIT_BRANCH}
+    when:
+      event:
+        exclude: [pull_request, tag]
+      branch:
+        exclude: [master]
+      local: false
+
+  ################################################################################
+  # build mpkg
+  ################################################################################
+  build_app:
+    image: docker.moxa.online/build/docker:stretch
+    pull: true
+    commands:
+      # device - armhf
+      - export REPO_URL=http://repo.isd.moxa.com/static/ThingsPro/Gateway/release/thingspro_v2.6/730
+      - export FRM_FILE=thingspro_release-thingspro_v2.6_armhf_20190416-025714.frm
+      - export ARCH=armhf
+      - cp ./armhf/* .
+      - make -j3 build && make -j3 mpkg
+      # device - amd64
+      - export REPO_URL=http://repo.isd.moxa.com/static/ThingsPro/Gateway/release/thingspro_v2.6/730
+      - export FRM_FILE=thingspro_release-thingspro_v2.6_amd64_20190416-025459.frm
+      - export ARCH=amd64
+      - cp ./amd64/* .
+      - make -j3 build && make -j3 mpkg
+      # ls
+      - ls -alh ./*.mpkg
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/storage:/mnt/storage:z
+    when:
+      branch: [master]
+      event: [push]
+
+  ################################################################################
+  # upload
+  ################################################################################
+
+  upload_builds:
+    image: docker.moxa.online/build/amd64-debian-docker:stretch
+    environment:
+      - BUILD_TARGET=/mnt/storage/repo/static/v3/edge/builds/${DRONE_REPO_NAME}/${DRONE_BUILD_NUMBER}
+      - BUILD_LAST_TARGET=/mnt/storage/repo/static/v3/edge/builds/${DRONE_REPO_NAME}/latest
+    commands:
+      - mkdir -p $${BUILD_TARGET}
+      - mkdir -p $${BUILD_LAST_TARGET}
+      - rm -rf $${BUILD_LAST_TARGET}/*
+      - cp ./*.mpkg $${BUILD_TARGET}
+      - cp ./*.mpkg $${BUILD_LAST_TARGET}
+    volumes:
+      - /mnt/storage:/mnt/storage:z
+    when:
+      branch: [master]
+      event: [push]
+
+  upload_mpkg:
+    image: docker.moxa.online/build/amd64-debian:jessie
+    environment:
+      - APP_TARGET=/mnt/storage/repo/static/v3/edge/apps
+    commands:
+      - mkdir -p $${APP_TARGET}
+      - cp ./*.mpkg $${APP_TARGET}
+      - find $${APP_TARGET} -name 'device_*.mpkg' -printf "%T+\t%p\n" | sort -r | awk 'NR >= 3 {print $$2}' | xargs -r rm -fv
+    volumes:
+      - /mnt/storage:/mnt/storage:z
+    when:
+      branch: [master]
+      event: [push]
+
+  notify_to_slack_channel:
+    image: plugins/slack
+    webhook: https://hooks.slack.com/services/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
+    channel: droneci
+    username: drone
+    when:
+      status: [failure]
+    template: >
+      *{{repo.name}}*: build <{{build.link}}|{{build.number}}> failed by *{{build.author}}*. Fix me please.
+      - *commit message:* ${DRONE_COMMIT_MESSAGE}
+
+matrix:
+  product:
+    - device
